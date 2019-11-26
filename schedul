@@ -1,20 +1,11 @@
-import sys
-import getopt
+import schedule
+import time
 
+def todo():
+    print ("Hello")
 
-def main(argv):
-    try:
-        opts, args = getopt.getopt(argv, "hf:", ["file="])
-    except getopt.GetoptError:
-        sys.exit(2)
+schedule.every(10).secondes.do(todo())
 
-    for opt, arg in opts:
-        if opt == '-h':
-            print('test.py -f <file>')
-            sys.exit()
-        elif opt in ("-f", "--file"):
-            print(arg)
-
-
-if name == "main":
-    main(sys.argv[1:])
+while True :
+    schedule.run_pending()
+    time.sleep(1)
