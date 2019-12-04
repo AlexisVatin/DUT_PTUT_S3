@@ -1,0 +1,6 @@
+import Tkinter
+widget = Tkinter.label(none, text="Hello world")
+widget.pack()
+widget.mainloop()
+
+#Affichage interface graphique
