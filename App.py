@@ -18,7 +18,7 @@ class Bot():
         elem.find_element_by_class_name("close-modal-cross").click() #clic qur la croix pour fermer la page de pub
         elem.find_element_by_class_name("banner-container").click()  #clic qur "passer a la pub suivante"
         # Si il est sur youtube, apres avoir regarde le nbexec de video il relance une recherche utip jusqu'a la fin de la liste
-        elem.find_element_by_class_name("yellow-btn button-no-style") #clic sur terminer la session 
+        elem.find_element_by_class_name("yellow-btn button-no-style") #clic sur terminer la session
         # une fois que le bot a fini de regarder le nbexec il clic sur terminer ma session puis recherche le youtubeur suivant jusqu'a la fin de la liste
 
     def execYtb(self):
@@ -29,6 +29,7 @@ class Bot():
         elem = self.driver.find_element_by_id("channel-section").click()
         # clic sur l'onglet video
         # clic sur la derniere video et la regarde nbexec fois
+        self.driver.find_element_by_id("thumbnail") # une fois dans l'onglet video il clic sur la derniere video
         # relance la recherche du bot sur utip jusqu'a la ifn de la liste
 
     def execute(self):
