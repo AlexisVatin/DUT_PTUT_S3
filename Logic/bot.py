@@ -13,26 +13,44 @@ class Bot():
         # nbexec a passer en argument lors de l'instanciation du bot (comme liste)
 
     def execUtip(self, elem):
+        #clic sur le lien dans la barre de recherche utip
         elem.click()
-        elem.find_element_by_class_name("support-btn-img").click() #clic qur "regarder une pub
-        elem.find_element_by_class_name("close-modal-cross").click() #clic qur la croix pour fermer la page de pub
-        elem.find_element_by_class_name("banner-container").click()  #clic qur "passer a la pub suivante"
-        # Si il est sur youtube, apres avoir regarde le nbexec de video il relance une recherche utip jusqu'a la fin de la liste
+        # clic qur "regarder une pub
+        time.sleep(2)
+        elem.find_element_by_class_name("support-btn-container").click()
+        #elem.find_element_by_class_name("support-btn support-btn").click()
+        elem.find_element_by_class_name("close-modal-cross").click()
+        # clic qur la croix pour fermer la page de pub
+        # clic qur "passer a la pub suivante"
+        # S'il est sur youtube, apres avoir regarde le nbexec de video il relance une recherche utip jusqu'a la fin de la liste
         elem.find_element_by_class_name("yellow-btn button-no-style") #clic sur terminer la session
         # une fois que le bot a fini de regarder le nbexec il clic sur terminer ma session puis recherche le youtubeur suivant jusqu'a la fin de la liste
 
     def execYtb(self):
         self.driver.get(self.urlYtb)
+        # Recherche le nom de la chaine dans la barre de recherche et appuie sur ENTER
         self.driver.find_element_by_name("search_query").send_keys(self.listYtb[0])
         self.driver.find_element_by_class_name("style-scope ytd-searchbox").send_keys(Keys.ENTER)
-        time.sleep(5)
+        # Attente car certaines connexions sont plus lentes que d'autres
+        time.sleep(2)
+        # clic sur la chaine Youtube
         elem = self.driver.find_element_by_id("channel-section").click()
         time.sleep(5)
-        self.driver.find_element_by_css_selector("a").find_element_by_id("thumbnail").click()
+        # clic sur la derniere video de la chaine
+        elem = self.driver.find_element_by_class_name("style-scope ytd-grid-video-renderer").click()
         # clic sur l'onglet video
         # clic sur la derniere video et la regarde nbexec fois
-        self.driver.find_element_by_id("thumbnail") # une fois dans l'onglet video il clic sur la derniere video
         # relance la recherche du bot sur utip jusqu'a la ifn de la liste
+
+        # Il faut faire attendre le sleep autant que la durée de la vidéo
+        time.sleep(10)
+        #refresh la page nbexec fois puis close
+
+        # Il faut faire attendre le sleep autant que la durée de la vidéo avant de fermer
+        time.sleep(10)
+        #fermeture de la fenetre apres nbexec vue
+        elem = self.driver.close() #nbexec
+
 
     def execute(self):
         self.driver.get(self.urlUtip)
@@ -45,3 +63,4 @@ class Bot():
             self.execUtip(elem[0])
         else :
             self.execYtb()
+
