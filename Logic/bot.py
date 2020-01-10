@@ -7,9 +7,10 @@ class Bot():
     urlYtb = "https://www.youtube.com/"
     urlUtip = "https://utip.io/"
 
-    def __init__(self, listYtb, driverUrl):
+    def __init__(self, listYtb, driverUrl, NumberLoop):
         self.listYtb = listYtb
         self.driver = webdriver.Chrome(driverUrl)
+        self.Number_loop = NumberLoop
         # nbexec a passer en argument lors de l'instanciation du bot (comme liste)
 
     def execUtip(self, elem):
@@ -25,6 +26,11 @@ class Bot():
         # S'il est sur youtube, apres avoir regarde le nbexec de video il relance une recherche utip jusqu'a la fin de la liste
         elem.find_element_by_class_name("yellow-btn button-no-style")  # clic sur terminer la session
         # une fois que le bot a fini de regarder le nbexec il clic sur terminer ma session puis recherche le youtubeur suivant jusqu'a la fin de la liste
+        
+        for i in range(0, self.Number_loop):
+            time.sleep(5)
+            # Rechargement page
+            self.driver.refresh()
 
     def execYtb(self, name):
         self.driver.get(self.urlYtb)
@@ -43,12 +49,17 @@ class Bot():
         # relance la recherche du bot sur utip jusqu'a la ifn de la liste
 
         # Il faut faire attendre le sleep autant que la durée de la vidéo
-        time.sleep(5)
+        # time.sleep(5)
         # refresh la page nbexec fois puis close
 
         # Il faut faire attendre le sleep autant que la durée de la vidéo avant de fermer
-        time.sleep(5)
+        # time.sleep(5)
         # fermeture de la fenetre apres nbexec vue
+
+        for i in range(0, self.Number_loop):
+            time.sleep(5)
+            # Rechargement page
+            self.driver.refresh()
 
     def execute(self):
         for name in self.listYtb:
