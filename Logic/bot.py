@@ -13,23 +13,23 @@ class Bot():
         # nbexec a passer en argument lors de l'instanciation du bot (comme liste)
 
     def execUtip(self, elem):
-        #clic sur le lien dans la barre de recherche utip
+        # clic sur le lien dans la barre de recherche utip
         elem.click()
         # clic qur "regarder une pub
         time.sleep(2)
         elem.find_element_by_class_name("support-btn-container").click()
-        #elem.find_element_by_class_name("support-btn support-btn").click()
+        # elem.find_element_by_class_name("support-btn support-btn").click()
         elem.find_element_by_class_name("close-modal-cross").click()
         # clic qur la croix pour fermer la page de pub
         # clic qur "passer a la pub suivante"
         # S'il est sur youtube, apres avoir regarde le nbexec de video il relance une recherche utip jusqu'a la fin de la liste
-        elem.find_element_by_class_name("yellow-btn button-no-style") #clic sur terminer la session
+        elem.find_element_by_class_name("yellow-btn button-no-style")  # clic sur terminer la session
         # une fois que le bot a fini de regarder le nbexec il clic sur terminer ma session puis recherche le youtubeur suivant jusqu'a la fin de la liste
 
-    def execYtb(self):
+    def execYtb(self, name):
         self.driver.get(self.urlYtb)
         # Recherche le nom de la chaine dans la barre de recherche et appuie sur ENTER
-        self.driver.find_element_by_name("search_query").send_keys(self.listYtb[0])
+        self.driver.find_element_by_name("search_query").send_keys(name)
         self.driver.find_element_by_class_name("style-scope ytd-searchbox").send_keys(Keys.ENTER)
         # Attente car certaines connexions sont plus lentes que d'autres
         time.sleep(2)
@@ -43,24 +43,27 @@ class Bot():
         # relance la recherche du bot sur utip jusqu'a la ifn de la liste
 
         # Il faut faire attendre le sleep autant que la durée de la vidéo
-        time.sleep(10)
-        #refresh la page nbexec fois puis close
+        time.sleep(5)
+        # refresh la page nbexec fois puis close
 
         # Il faut faire attendre le sleep autant que la durée de la vidéo avant de fermer
-        time.sleep(10)
-        #fermeture de la fenetre apres nbexec vue
-        elem = self.driver.close() #nbexec
-
+        time.sleep(5)
+        # fermeture de la fenetre apres nbexec vue
 
     def execute(self):
-        self.driver.get(self.urlUtip)
-        elem = self.driver.find_element_by_class_name("ncs-input-container")
-        elem = elem.find_element_by_css_selector("input")
-        elem.send_keys(self.listYtb[0])
-        time.sleep(5)
-        elem = self.driver.find_elements_by_class_name("redirect-feed")
-        if len(elem) > 0:
-            self.execUtip(elem[0])
-        else :
-            self.execYtb()
+        for name in self.listYtb:
+            self.driver.get(self.urlUtip)
+            elem = self.driver.find_element_by_class_name("ncs-input-container")
+            elem = elem.find_element_by_css_selector("input")
+            elem.send_keys(name)
+            time.sleep(5)
+            elem = self.driver.find_elements_by_class_name("redirect-feed")
+            if len(elem) > 0:
+                self.execUtip(elem[0])
+            else:
+                self.execYtb(name)
 
+        self.stop()
+
+    def stop(self):
+        self.driver.close()
