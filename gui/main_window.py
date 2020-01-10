@@ -64,3 +64,4 @@ class MainWindow(tk.Tk):
         list_name = reversed(self.name_list.get(0, self.name_list.size()))
         bot = Bot(list_name, "drivers\chromedriver.exe")
         bot.execute()
+ 
