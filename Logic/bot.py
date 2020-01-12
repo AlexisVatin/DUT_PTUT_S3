@@ -1,6 +1,7 @@
 from selenium import webdriver
 import time
 from selenium.webdriver.common.keys import Keys
+import datetime
 
 
 class Bot():
@@ -17,20 +18,19 @@ class Bot():
         # clic sur le lien dans la barre de recherche utip
         elem.click()
         # clic qur "regarder une pub
-        time.sleep(2)
-        elem.find_element_by_class_name("support-btn-container").click()
-        # elem.find_element_by_class_name("support-btn support-btn").click()
-        elem.find_element_by_class_name("close-modal-cross").click()
-        # clic qur la croix pour fermer la page de pub
-        # clic qur "passer a la pub suivante"
-        # S'il est sur youtube, apres avoir regarde le nbexec de video il relance une recherche utip jusqu'a la fin de la liste
-        elem.find_element_by_class_name("yellow-btn button-no-style")  # clic sur terminer la session
-        # une fois que le bot a fini de regarder le nbexec il clic sur terminer ma session puis recherche le youtubeur suivant jusqu'a la fin de la liste
-        
-        for i in range(0, self.Number_loop):
-            time.sleep(5)
-            # Rechargement page
-            self.driver.refresh()
+        time.sleep(5)
+        self.driver.find_element_by_class_name("support-btn-img").click()
+        i = 0
+        while i < int(self.Number_loop):
+            try:
+                banner = self.driver.find_element_by_class_name("banner-container")
+                if banner:
+                    banner.click()
+                    i = i + 1
+                    time.sleep(5)
+                    # break
+            except:
+                time.sleep(1)
 
     def execYtb(self, name):
         self.driver.get(self.urlYtb)
@@ -44,20 +44,8 @@ class Bot():
         time.sleep(5)
         # clic sur la derniere video de la chaine
         elem = self.driver.find_element_by_class_name("style-scope ytd-grid-video-renderer").click()
-        # clic sur l'onglet video
-        # clic sur la derniere video et la regarde nbexec fois
-        # relance la recherche du bot sur utip jusqu'a la ifn de la liste
-
-        # Il faut faire attendre le sleep autant que la durée de la vidéo
-        # time.sleep(5)
-        # refresh la page nbexec fois puis close
-
-        # Il faut faire attendre le sleep autant que la durée de la vidéo avant de fermer
-        # time.sleep(5)
-        # fermeture de la fenetre apres nbexec vue
-
-        for i in range(0, self.Number_loop):
-            time.sleep(5)
+        for i in range(1, int(self.Number_loop)):
+            time.sleep(200)
             # Rechargement page
             self.driver.refresh()
 
