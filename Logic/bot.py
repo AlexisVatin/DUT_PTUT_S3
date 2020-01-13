@@ -17,20 +17,21 @@ class Bot():
     def execUtip(self, elem):
         # clic sur le lien dans la barre de recherche utip
         elem.click()
-        # clic qur "regarder une pub
+        # clic qur regarder une pub
         time.sleep(5)
         self.driver.find_element_by_class_name("support-btn-img").click()
         i = 0
-        while i < int(self.Number_loop):
-            try:
-                banner = self.driver.find_element_by_class_name("banner-container")
-                if banner:
-                    banner.click()
-                    i = i + 1
-                    time.sleep(5)
-                    # break
-            except:
-                time.sleep(1)
+        for i in range(0, int(self.Number_loop)):
+            while True: #i < int(self.Number_loop):
+                try:
+                    banner = self.driver.find_element_by_class_name("banner-container")
+                    if banner:
+                        banner.click()
+                        i = i + 1
+                        time.sleep(5)
+                        break
+                except:
+                    time.sleep(1)
 
     def execYtb(self, name):
         self.driver.get(self.urlYtb)
@@ -44,8 +45,8 @@ class Bot():
         time.sleep(5)
         # clic sur la derniere video de la chaine
         elem = self.driver.find_element_by_class_name("style-scope ytd-grid-video-renderer").click()
-        for i in range(1, int(self.Number_loop)):
-            time.sleep(200)
+        for i in range(0, int(self.Number_loop)):
+            time.sleep(324)
             # Rechargement page
             self.driver.refresh()
 
